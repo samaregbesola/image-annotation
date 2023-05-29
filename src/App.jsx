@@ -3,20 +3,18 @@ import { useRef, useEffect, useState } from "react";
 const App = () => {
   let imageUrl = "https://source.unsplash.com/1980x1020/?beach";
   const canvasRef = useRef(null);
-  const [canvasWidth, setCanvasWidth] = useState(0);
-  const [canvasHeight, setCanvasHeight] = useState(0);
   const [drawing, setDrawing] = useState(false);
   const [brushWidth, setBrushWidth] = useState(5);
   const [brushColor, setBrushColor] = useState("#000000"); // new state variable for brush color
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    canvas.width = window.innerWidth; // set canvas width to be 100% of windows width
+    canvas.height = window.innerHeight * 0.9; // set canvas height to 90% of window height
     const context = canvas.getContext("2d");
     const image = new Image();
 
     image.onload = () => {
-      setCanvasWidth(window.innerWidth);
-      setCanvasHeight(window.innerHeight * 0.9);
       context.drawImage(image, 0, 0, canvas.width, canvas.height);
     };
 
@@ -66,9 +64,6 @@ const App = () => {
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        width={canvasWidth}
-        height={canvasHeight}
-        style={{ width: "100%", height: "90vh" }}
       />
       <div>
         <label htmlFor="brush-width">Brush Width:</label>
